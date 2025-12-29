@@ -18,11 +18,11 @@ export async function sendPushNotification(
 
   const message = {
     to: pushToken,
-    sound: 'default',
+    sound: 'default' as const,
     title,
     body,
     data: data || {},
-    priority: 'high',
+    priority: 'high' as const,
     channelId: 'default',
   };
 
@@ -72,11 +72,11 @@ export async function sendPushNotificationsToUsers(
   // Send notifications to all tokens
   const messages = tokens.map(({ token }) => ({
     to: token,
-    sound: 'default',
+    sound: 'default' as const,
     title,
     body,
     data: data || {},
-    priority: 'high',
+    priority: 'high' as const,
     channelId: 'default',
   }));
 
