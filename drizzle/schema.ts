@@ -68,3 +68,17 @@ export const pushTokens = pgTable("push_tokens", {
   tokenIdx: index("push_tokens_token_idx").on(table.token),
 }));
 
+// ============ EMOJI REACTIONS ============
+
+export const entryReactions = pgTable("entry_reactions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  entryId: uuid("entry_id").notNull().references(() => gratitudeEntries.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  emoji: text("emoji").notNull().default("👍"),
+  createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+}, (table) => ({
+  entryIdIdx: index("entry_reactions_entry_id_idx").on(table.entryId),
+  userIdIdx: index("entry_reactions_user_id_idx").on(table.userId),
+  uniqueReaction: unique("entry_reactions_unique").on(table.entryId, table.userId),
+}));
+
