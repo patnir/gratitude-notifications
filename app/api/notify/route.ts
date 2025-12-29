@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { circleMembers, gratitudeEntries, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
-import { circleMembers, users, gratitudeEntries } from '@/drizzle/schema';
-import { eq, and, ne } from 'drizzle-orm';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { and, eq, ne } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { entryId, circleId, authorId } = await request.json();
+    const body = await request.json();
+    const { entryId, circleId, authorId } = body;
+
+    console.log('Received notification request:', { entryId, circleId, authorId });
 
     if (!entryId || !circleId || !authorId) {
       return NextResponse.json(
@@ -65,16 +68,22 @@ export async function POST(request: NextRequest) {
     const body = `${authorName} says "${truncatedContent}"`;
 
     // Send notifications
-    await sendPushNotificationsToUsers(memberIds, title, body, {
-      type: 'circle-entry',
-      circleId,
-      entryId,
-      authorId,
-    });
+    try {
+      await sendPushNotificationsToUsers(memberIds, title, body, {
+        type: 'circle-entry',
+        circleId,
+        entryId,
+        authorId,
+      });
+      console.log('Notifications sent successfully to', memberIds.length, 'members');
+    } catch (pushError) {
+      console.error('Error in sendPushNotificationsToUsers:', pushError);
+      // Still return success since entry was created, just notifications failed
+    }
 
-    return NextResponse.json({ 
-      success: true, 
-      notified: memberIds.length 
+    return NextResponse.json({
+      success: true,
+      notified: memberIds.length
     });
   } catch (error) {
     console.error('Error sending notifications:', error);
