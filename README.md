@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gratitude Notifications Backend
 
-## Getting Started
+Next.js API backend for sending push notifications when users create gratitude entries in circles.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Environment Variables
+
+Add these to your Vercel project settings (or `.env.local` for local development):
+
+```env
+DATABASE_URL=postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
+EXPO_ACCESS_TOKEN=your_expo_access_token
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Get DATABASE_URL:**
+- Use the same database URL from your main gratitude app
+- From Neon dashboard → Connection Details
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Get EXPO_ACCESS_TOKEN:**
+1. Go to https://expo.dev/accounts/[your-account]/settings/access-tokens
+2. Create a new access token
+3. Copy and add to Vercel environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Create Push Tokens Table
 
-## Learn More
+Run this SQL in your Neon database to create the `push_tokens` table:
 
-To learn more about Next.js, take a look at the following resources:
+```sql
+CREATE TABLE IF NOT EXISTS push_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token TEXT NOT NULL UNIQUE,
+  device_id TEXT,
+  platform TEXT NOT NULL,
+  created_at BIGINT NOT NULL DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
+  updated_at BIGINT NOT NULL DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
+);
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+CREATE INDEX IF NOT EXISTS push_tokens_user_id_idx ON push_tokens(user_id);
+CREATE INDEX IF NOT EXISTS push_tokens_token_idx ON push_tokens(token);
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Deploy to Vercel
 
-## Deploy on Vercel
+```bash
+# If not already connected
+vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Deploy
+vercel --prod
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Or push to GitHub and Vercel will auto-deploy.
+
+## API Endpoints
+
+### POST `/api/push-tokens`
+Register or update a push notification token for a user.
+
+**Request:**
+```json
+{
+  "userId": "user_xxx",
+  "token": "ExponentPushToken[xxx]",
+  "platform": "ios"
+}
+```
+
+### POST `/api/notify`
+Send push notifications to circle members when a new entry is created.
+
+**Request:**
+```json
+{
+  "entryId": "uuid",
+  "circleId": "uuid",
+  "authorId": "user_xxx"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "notified": 3
+}
+```
+
+## Next Steps
+
+1. ✅ Backend is set up
+2. ⏳ Add push token registration to mobile app
+3. ⏳ Call `/api/notify` after creating entries in circles
+4. ⏳ Test end-to-end
+
+See the main gratitude app for mobile app integration code.

@@ -1,0 +1,87 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { circleMembers, users, gratitudeEntries } from '@/drizzle/schema';
+import { eq, and, ne } from 'drizzle-orm';
+import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+
+export async function POST(request: NextRequest) {
+  try {
+    const { entryId, circleId, authorId } = await request.json();
+
+    if (!entryId || !circleId || !authorId) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Get the entry to verify it exists and get content
+    const [entry] = await db
+      .select()
+      .from(gratitudeEntries)
+      .where(eq(gratitudeEntries.id, entryId))
+      .limit(1);
+
+    if (!entry) {
+      return NextResponse.json(
+        { error: 'Entry not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get author's display name
+    const [author] = await db
+      .select({ displayName: users.displayName })
+      .from(users)
+      .where(eq(users.id, authorId))
+      .limit(1);
+
+    const authorName = author?.displayName || 'Someone';
+
+    // Get all circle members except the author
+    const members = await db
+      .select({ userId: circleMembers.userId })
+      .from(circleMembers)
+      .where(
+        and(
+          eq(circleMembers.circleId, circleId),
+          ne(circleMembers.userId, authorId)
+        )
+      );
+
+    if (members.length === 0) {
+      return NextResponse.json({ message: 'No members to notify' });
+    }
+
+    const memberIds = members.map(m => m.userId);
+
+    // Truncate content for notification
+    const truncatedContent = entry.content.length > 100
+      ? entry.content.substring(0, 100) + '...'
+      : entry.content;
+
+    // Format notification
+    const title = 'New Gratitude Entry';
+    const body = `${authorName} says "${truncatedContent}"`;
+
+    // Send notifications
+    await sendPushNotificationsToUsers(memberIds, title, body, {
+      type: 'circle-entry',
+      circleId,
+      entryId,
+      authorId,
+    });
+
+    return NextResponse.json({ 
+      success: true, 
+      notified: memberIds.length 
+    });
+  } catch (error) {
+    console.error('Error sending notifications:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
