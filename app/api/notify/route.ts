@@ -6,8 +6,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { entryId, circleId, authorId } = body;
+    const requestBody = await request.json();
+    const { entryId, circleId, authorId } = requestBody;
 
     console.log('Received notification request:', { entryId, circleId, authorId });
 
