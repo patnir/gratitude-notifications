@@ -19,6 +19,7 @@ export const circles = pgTable("circles", {
   name: text("name").notNull(), // Min 1, max 50 chars
   ownerId: text("owner_id").notNull(), // Clerk user ID of creator
   inviteCode: text("invite_code").notNull().unique(), // Exactly 6 uppercase chars
+  color: text("color").notNull().default("green"), // Circle color name
   createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
 }, (table) => ({
   ownerIdIdx: index("circles_owner_id_idx").on(table.ownerId),
@@ -43,7 +44,7 @@ export const gratitudeEntries = pgTable("gratitude_entries", {
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   content: text("content").notNull(), // Min 1 char after trim
   location: text("location"), // Optional: stores JSON with {latitude, longitude, city, state, country, address}
-  imageUri: text("image_uri"), // Optional: local file path to attached image
+  imageUrl: text("image_url"), // Optional: cloud URL for attached image
   circleId: uuid("circle_id").references(() => circles.id, { onDelete: "set null" }), // If null, entry is private
   createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
   updatedAt: bigint("updated_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
