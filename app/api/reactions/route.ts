@@ -1,12 +1,77 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
 import { entryReactions, gratitudeEntries, users } from '@/drizzle/schema';
-import { eq, and } from 'drizzle-orm';
+import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { and, eq, inArray } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const entryIdsParam = searchParams.get('entryIds');
+    const userId = searchParams.get('userId');
+
+    if (!entryIdsParam) {
+      return NextResponse.json(
+        { error: 'Missing entryIds parameter' },
+        { status: 400 }
+      );
+    }
+
+    const entryIds = entryIdsParam.split(',').filter(Boolean);
+    if (entryIds.length === 0) {
+      return NextResponse.json({ reactions: {}, userReactions: {} });
+    }
+
+    // Get all reactions for these entries
+    const allReactions = await db
+      .select()
+      .from(entryReactions)
+      .where(inArray(entryReactions.entryId, entryIds));
+
+    // Group by entryId and emoji, count each
+    const reactions: Record<string, Record<string, number>> = {};
+    allReactions.forEach(r => {
+      if (!reactions[r.entryId]) reactions[r.entryId] = {};
+      reactions[r.entryId][r.emoji] = (reactions[r.entryId][r.emoji] || 0) + 1;
+    });
+
+    // Get user's reactions if userId provided
+    const userReactions: Record<string, string | null> = {};
+    if (userId) {
+      const userReactionRows = await db
+        .select()
+        .from(entryReactions)
+        .where(
+          and(
+            inArray(entryReactions.entryId, entryIds),
+            eq(entryReactions.userId, userId)
+          )
+        );
+
+      entryIds.forEach(entryId => {
+        const userReaction = userReactionRows.find(r => r.entryId === entryId);
+        userReactions[entryId] = userReaction?.emoji || null;
+      });
+    } else {
+      // If no userId, set all to null
+      entryIds.forEach(entryId => {
+        userReactions[entryId] = null;
+      });
+    }
+
+    return NextResponse.json({ reactions, userReactions });
+  } catch (error) {
+    console.error('Error fetching reactions:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const { entryId, userId, emoji } = await request.json();
+    const { entryId, userId, emoji, action } = await request.json();
 
     if (!entryId || !userId || !emoji) {
       return NextResponse.json(
@@ -15,13 +80,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate emoji
-    const validEmojis = ['👍', '❤️', '😊', '🙏', '🎉'];
-    if (!validEmojis.includes(emoji)) {
-      return NextResponse.json(
-        { error: 'Invalid emoji' },
-        { status: 400 }
-      );
+    // Only send notification if reaction was added (not removed)
+    if (action === 'removed') {
+      return NextResponse.json({ success: true });
     }
 
     // Get entry to find author
@@ -38,38 +99,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user already has a reaction
-    const [existing] = await db
-      .select()
-      .from(entryReactions)
-      .where(and(
-        eq(entryReactions.entryId, entryId),
-        eq(entryReactions.userId, userId)
-      ))
-      .limit(1);
-
-    let action: 'added' | 'updated' | 'removed';
-    
-    if (existing) {
-      if (existing.emoji === emoji) {
-        // Remove reaction (toggling same emoji)
-        await db.delete(entryReactions).where(eq(entryReactions.id, existing.id));
-        action = 'removed';
-      } else {
-        // Change emoji
-        await db.update(entryReactions)
-          .set({ emoji })
-          .where(eq(entryReactions.id, existing.id));
-        action = 'updated';
-      }
-    } else {
-      // Add new reaction
-      await db.insert(entryReactions).values({ entryId, userId, emoji });
-      action = 'added';
-    }
-
-    // Send notification to entry author (only if not their own entry and reaction was added/updated)
-    if (entry.userId !== userId && action !== 'removed') {
+    // Send notification to entry author (only if not their own entry)
+    if (entry.userId !== userId) {
       const [reactor] = await db
         .select({ displayName: users.displayName })
         .from(users)
@@ -86,13 +117,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      action,
-      emoji: action === 'removed' ? null : emoji
-    });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error handling reaction:', error);
+    console.error('Error sending reaction notification:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
