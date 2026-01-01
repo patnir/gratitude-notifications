@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { pushTokens } from '@/drizzle/schema';
 import { Expo } from 'expo-server-sdk';
@@ -7,18 +7,9 @@ const expo = new Expo({
   accessToken: process.env.EXPO_ACCESS_TOKEN,
 });
 
-// POST /api/weekly-recap/send
-// Sends weekly recap notification to all users
-// Protected by CRON_SECRET for Vercel cron jobs
-export async function POST(request: NextRequest) {
-  // Verify cron secret (Vercel sends this header for cron jobs)
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-  
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+// GET /api/weekly-recap/send
+// Called by Vercel cron every Friday at 2 PM PT
+export async function GET() {
   try {
     // Get all push tokens
     const allTokens = await db
@@ -92,17 +83,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// Also support GET for manual testing (with secret)
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const secret = searchParams.get('secret');
-  
-  if (secret !== process.env.CRON_SECRET) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  // Forward to POST handler
-  return POST(request);
-}
-
