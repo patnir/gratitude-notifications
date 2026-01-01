@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/weekly-recap/send",
-      "schedule": "0 1 * * 6"
+      "schedule": "0 22 * * 5"
     }
   ]
 }
