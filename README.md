@@ -11,6 +11,10 @@ Add these to your Vercel project settings (or `.env.local` for local development
 ```env
 DATABASE_URL=postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
 EXPO_ACCESS_TOKEN=your_expo_access_token
+BACKUP_SECRET=your_random_secret_for_manual_backups
+CL_S3_URL=https://xxx.r2.cloudflarestorage.com
+CL_EXPO_ACCESS_KEY_ID=your_r2_access_key
+CL_SECRET_ACCESS_KEY=your_r2_secret_key
 ```
 
 **Get DATABASE_URL:**
@@ -86,6 +90,38 @@ Send push notifications to circle members when a new entry is created.
   "notified": 3
 }
 ```
+
+### GET `/api/backup`
+Daily database backup to Cloudflare R2. Runs automatically via Vercel cron at 3 AM UTC.
+
+**Authentication:**
+- Vercel cron requests are automatically authorized
+- Manual trigger requires `BACKUP_SECRET` via query param or Bearer token
+
+**Manual trigger:**
+```bash
+curl "https://gratitude-notifications.vercel.app/api/backup?secret=YOUR_BACKUP_SECRET"
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "filename": "dbbackups/backup-2025-01-01T03-00-00-000Z.jsonl",
+  "timestamp": "2025-01-01T03-00-00-000Z",
+  "counts": {
+    "users": 10,
+    "circles": 5,
+    "circleMembers": 15,
+    "gratitudeEntries": 100,
+    "pushTokens": 8,
+    "entryReactions": 50
+  },
+  "totalRows": 188
+}
+```
+
+**Backup location:** `gratitude-images` R2 bucket under `dbbackups/` folder.
 
 ## Next Steps
 
