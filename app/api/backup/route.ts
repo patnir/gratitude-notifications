@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import * as schema from '@/drizzle/schema';
 
@@ -16,8 +16,16 @@ const s3Client = new S3Client({
 const BUCKET_NAME = 'gratitude-images';
 
 // GET /api/backup
-// Called by Vercel cron daily at 3 AM UTC
-export async function GET() {
+// Called by Vercel cron daily at 3 PM PT
+export async function GET(request: NextRequest) {
+  // Verify CRON_SECRET (Vercel sends Authorization: Bearer <CRON_SECRET>)
+  const authHeader = request.headers.get('authorization');
+  const cronSecret = process.env.CRON_SECRET;
+  
+  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const backupData: Record<string, unknown[]> = {};

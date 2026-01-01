@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { pushTokens } from '@/drizzle/schema';
 import { Expo } from 'expo-server-sdk';
@@ -8,8 +8,16 @@ const expo = new Expo({
 });
 
 // GET /api/weekly-recap/send
-// Called by Vercel cron every Friday at 2 PM PT
-export async function GET() {
+// Called by Vercel cron every Friday at 3 PM PT
+export async function GET(request: NextRequest) {
+  // Verify CRON_SECRET (Vercel sends Authorization: Bearer <CRON_SECRET>)
+  const authHeader = request.headers.get('authorization');
+  const cronSecret = process.env.CRON_SECRET;
+  
+  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     // Get all push tokens
     const allTokens = await db
