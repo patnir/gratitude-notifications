@@ -12,12 +12,21 @@ export const metadata: Metadata = {
     url: "https://grateful.so",
     siteName: "Grateful",
     type: "website",
+    images: [
+      {
+        url: "https://grateful.so/icon.png",
+        width: 1024,
+        height: 1024,
+        alt: "Grateful App Icon",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Grateful - Daily Gratitude Journal",
     description:
       "A beautiful gratitude journaling app. Write daily entries, share with circles of friends and family, and build a lasting habit of gratitude.",
+    images: ["https://grateful.so/icon.png"],
   },
 };
 

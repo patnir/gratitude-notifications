@@ -50,11 +50,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
       type: 'website',
       url: `https://grateful.so/join/${code}`,
+      images: [
+        {
+          url: 'https://grateful.so/icon.png',
+          width: 1024,
+          height: 1024,
+          alt: 'Grateful App Icon',
+        },
+      ],
     },
     twitter: {
       card: 'summary',
       title: `Join ${circle.name} on Grateful`,
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
+      images: ['https://grateful.so/icon.png'],
     },
     other: {
       'apple-itunes-app': 'app-id=YOUR_APP_ID', // TODO: Replace with actual App Store ID
