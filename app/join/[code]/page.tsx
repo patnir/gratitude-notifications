@@ -37,23 +37,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!circle) {
     return {
-      title: 'Circle Not Found | Gratitude',
+      title: 'Circle Not Found | Grateful',
       description: 'This invite link is invalid or has expired.',
     };
   }
 
   return {
-    title: `Join ${circle.name} | Gratitude`,
-    description: `You've been invited to join "${circle.name}" on Gratitude - a daily gratitude journaling app. ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} already sharing gratitude together.`,
+    title: `Join ${circle.name} | Grateful`,
+    description: `You've been invited to join "${circle.name}" on Grateful - a daily gratitude journaling app. ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} already sharing gratitude together.`,
     openGraph: {
-      title: `Join ${circle.name} on Gratitude`,
+      title: `Join ${circle.name} on Grateful`,
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
       type: 'website',
       url: `https://grateful.so/join/${code}`,
     },
     twitter: {
       card: 'summary',
-      title: `Join ${circle.name} on Gratitude`,
+      title: `Join ${circle.name} on Grateful`,
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
     },
     other: {
@@ -67,14 +67,14 @@ export default async function JoinCirclePage({ params }: PageProps) {
   const circle = await getCircle(code);
 
   // Deep link URL for the app
-  const deepLink = `gratitude://circle/join/${code}`;
-  
+  const deepLink = `grateful://circle/join/${code}`;
+
   // App Store URL (update with actual ID when available)
   const appStoreUrl = 'https://apps.apple.com/app/gratitude/id0000000000'; // TODO: Replace with actual URL
 
   if (!circle) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-lienar-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +89,7 @@ export default async function JoinCirclePage({ params }: PageProps) {
             href="/"
             className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-emerald-700 transition-colors"
           >
-            Learn About Gratitude
+            Learn About Grateful
           </Link>
         </div>
       </div>
@@ -97,20 +97,20 @@ export default async function JoinCirclePage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-linear-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
           {/* Icon */}
-          <div 
+          <div
             className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
             style={{ backgroundColor: getCircleColor(circle.color) + '20' }}
           >
-            <svg 
-              className="w-10 h-10" 
+            <svg
+              className="w-10 h-10"
               style={{ color: getCircleColor(circle.color) }}
-              fill="none" 
-              stroke="currentColor" 
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -119,9 +119,9 @@ export default async function JoinCirclePage({ params }: PageProps) {
 
           {/* Circle Name */}
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Join "{circle.name}"
+            Join &quot;{circle.name}&quot;
           </h1>
-          
+
           {/* Member Count */}
           <p className="text-gray-600 mb-6">
             {circle.memberCount} {circle.memberCount === 1 ? 'person' : 'people'} sharing gratitude together
@@ -146,22 +146,22 @@ export default async function JoinCirclePage({ params }: PageProps) {
 
           {/* Download App Link */}
           <p className="text-gray-500 text-sm">
-            Don't have the app?{' '}
-            <a 
+            Don&apos;t have the app?{' '}
+            <a
               href={appStoreUrl}
               className="font-semibold hover:underline"
               style={{ color: getCircleColor(circle.color) }}
             >
-              Download Gratitude
+              Download Grateful
             </a>
           </p>
         </div>
 
-        {/* What is Gratitude */}
+        {/* What is Grateful */}
         <div className="mt-8 text-center">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">What is Gratitude?</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">What is Grateful?</h2>
           <p className="text-gray-600 text-sm leading-relaxed">
-            A daily gratitude journaling app where you can share what you're thankful for 
+            A daily gratitude journaling app where you can share what you&apos;re thankful for
             with your closest circles - family, friends, and loved ones.
           </p>
         </div>

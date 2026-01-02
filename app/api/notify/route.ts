@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       : entry.content;
 
     // Format notification
-    const title = 'New Gratitude Entry';
+    const title = 'New Entry';
     const body = `${authorName} says "${truncatedContent}"`;
 
     // Send notifications
