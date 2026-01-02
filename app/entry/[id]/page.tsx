@@ -81,6 +81,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  // Use the entry content as the title (truncate if needed for OG title ~70 chars ideal)
+  const title = entry.content.length > 70 
+    ? entry.content.substring(0, 67) + '...' 
+    : entry.content;
+
+  // Longer description for the body
   const description = entry.content.length > 150 
     ? entry.content.substring(0, 147) + '...' 
     : entry.content;
@@ -91,11 +97,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const ogImageHeight = entry.imageUrl ? 630 : 1024;
 
   return {
-    title: `${entry.authorName} is grateful | Grateful`,
-    description: description,
+    title: `${title} | Grateful`,
+    description: `${entry.authorName} on Grateful`,
     openGraph: {
-      title: `${entry.authorName} is grateful`,
-      description: description,
+      title: title,
+      description: `${entry.authorName} on Grateful`,
       type: 'article',
       url: `https://grateful.so/entry/${id}`,
       images: [
@@ -109,8 +115,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: entry.imageUrl ? 'summary_large_image' : 'summary',
-      title: `${entry.authorName} is grateful`,
-      description: description,
+      title: title,
+      description: `${entry.authorName} on Grateful`,
       images: [ogImage],
     },
   };
