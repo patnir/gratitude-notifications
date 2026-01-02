@@ -100,7 +100,7 @@ Daily database backup to Cloudflare R2. Runs automatically via Vercel cron at 3 
 
 **Manual trigger:**
 ```bash
-curl "https://gratitude-notifications.vercel.app/api/backup?secret=YOUR_BACKUP_SECRET"
+curl "https://grateful.so/api/backup?secret=YOUR_BACKUP_SECRET"
 ```
 
 **Response:**
