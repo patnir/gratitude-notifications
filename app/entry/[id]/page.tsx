@@ -129,8 +129,8 @@ export default async function EntryPage({ params }: PageProps) {
   // Deep link URL for the app
   const deepLink = `grateful://entry/${id}`;
 
-  // App Store URL
-  const appStoreUrl = 'https://apps.apple.com/app/grateful';
+  // TestFlight URL
+  const appStoreUrl = 'https://testflight.apple.com/join/6u5zHFms';
 
   if (!entry) {
     return (
@@ -222,7 +222,7 @@ export default async function EntryPage({ params }: PageProps) {
                 href={appStoreUrl}
                 className="text-[#0a660a] font-semibold hover:underline"
               >
-                Download Grateful
+                Download on TestFlight (Beta)
               </a>
             </p>
           </div>
