@@ -25,14 +25,14 @@ export default function Home() {
               height={40}
               className="rounded-xl"
             />
-            <span className="font-serif text-2xl text-[#0a660a]">Grateful</span>
+            <span className="text-2xl font-semibold text-[#0a660a]">Grateful</span>
           </div>
         </nav>
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-32">
           <div className="max-w-2xl">
             <h1
-              className="font-serif text-6xl md:text-7xl text-[#1a1a1a] leading-[1.1] opacity-0 animate-fade-in-up"
+              className="text-5xl md:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
               style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
             >
               Find joy in the
@@ -86,7 +86,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-serif text-4xl md:text-5xl text-center text-[#1a1a1a] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a1a] mb-4 tracking-tight">
             How it works
           </h2>
           <p className="text-center text-[#666] text-lg mb-16 max-w-xl mx-auto">
@@ -111,7 +111,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="font-serif text-2xl text-[#1a1a1a] mb-3">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
                 Write daily
               </h3>
               <p className="text-[#666] leading-relaxed">
@@ -137,7 +137,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="font-serif text-2xl text-[#1a1a1a] mb-3">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
                 Share with circles
               </h3>
               <p className="text-[#666] leading-relaxed">
@@ -163,7 +163,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="font-serif text-2xl text-[#1a1a1a] mb-3">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
                 Build your streak
               </h3>
               <p className="text-[#666] leading-relaxed">
@@ -178,7 +178,7 @@ export default function Home() {
       {/* Quote Section */}
       <section className="py-24 px-6 bg-[#0a660a]">
         <div className="max-w-4xl mx-auto text-center">
-          <blockquote className="font-serif text-3xl md:text-4xl text-white leading-relaxed">
+          <blockquote className="text-2xl md:text-3xl font-medium text-white leading-relaxed">
             &ldquo;Gratitude turns what we have into enough.&rdquo;
           </blockquote>
           <cite className="mt-6 block text-[#a8d4a8] text-lg not-italic">
@@ -192,7 +192,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="font-serif text-4xl text-[#1a1a1a] mb-6">
+              <h2 className="text-3xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
                 Remember the good moments
               </h2>
               <ul className="space-y-4">
@@ -316,7 +316,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-24 px-6 bg-[#fafaf8]">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-serif text-4xl md:text-5xl text-[#1a1a1a] mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
             Start your gratitude practice today
           </h2>
           <p className="text-[#666] text-lg mb-10">
@@ -345,7 +345,7 @@ export default function Home() {
               height={32}
               className="rounded-lg"
             />
-            <span className="font-serif text-xl text-[#0a660a]">Grateful</span>
+            <span className="text-xl font-semibold text-[#0a660a]">Grateful</span>
           </div>
           <p className="text-[#999] text-sm">
             Made with gratitude
