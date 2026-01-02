@@ -58,14 +58,14 @@ export async function POST(request: NextRequest) {
 
     const memberIds = members.map(m => m.userId);
 
-    // Truncate content for notification
+    // Truncate content for notification (shorter for better readability)
     const truncatedContent = entry.content.length > 100
       ? entry.content.substring(0, 100) + '...'
       : entry.content;
 
-    // Format notification
-    const title = 'New Entry';
-    const body = `${authorName} says "${truncatedContent}"`;
+    // Format notification - more personal and engaging
+    const title = `${authorName} is grateful for`;
+    const body = truncatedContent;
 
     // Send notifications
     try {
