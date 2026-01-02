@@ -113,9 +113,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: description,
       images: [ogImage],
     },
-    other: {
-      'apple-itunes-app': 'app-id=YOUR_APP_ID', // TODO: Replace with actual App Store ID
-    },
   };
 }
 
@@ -126,25 +123,25 @@ export default async function EntryPage({ params }: PageProps) {
   // Deep link URL for the app
   const deepLink = `grateful://entry/${id}`;
 
-  // App Store URL (update with actual ID when available)
-  const appStoreUrl = 'https://apps.apple.com/app/gratitude/id0000000000'; // TODO: Replace with actual URL
+  // App Store URL
+  const appStoreUrl = 'https://apps.apple.com/app/grateful';
 
   if (!entry) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="min-h-screen bg-[#fafaf8] flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-[#e8e8e8] p-8 text-center">
+          <div className="w-16 h-16 bg-[#f5f5f5] rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg className="w-8 h-8 text-[#999]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Entry Not Available</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-[#1a1a1a] mb-3 tracking-tight">Entry Not Available</h1>
+          <p className="text-[#666] mb-8 leading-relaxed">
             This gratitude entry is private or does not exist.
           </p>
           <Link
             href="/"
-            className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-emerald-700 transition-colors"
+            className="inline-block bg-[#0a660a] text-white font-semibold px-8 py-4 rounded-2xl hover:bg-[#085408] transition-colors"
           >
             Learn About Grateful
           </Link>
@@ -156,10 +153,10 @@ export default async function EntryPage({ params }: PageProps) {
   const location = parseLocation(entry.location);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-[#fafaf8] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full">
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-3xl border border-[#e8e8e8] overflow-hidden">
           {/* Image if present */}
           {entry.imageUrl && (
             <div className="relative w-full aspect-[4/3]">
@@ -169,32 +166,33 @@ export default async function EntryPage({ params }: PageProps) {
                 fill
                 className="object-cover"
                 sizes="(max-width: 448px) 100vw, 448px"
+                unoptimized
               />
             </div>
           )}
 
           <div className="p-8">
             {/* Author */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                <span className="text-emerald-700 font-semibold text-lg">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-[#e8f5e8] rounded-2xl flex items-center justify-center">
+                <span className="text-[#0a660a] font-semibold text-lg">
                   {entry.authorName.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{entry.authorName}</p>
-                <p className="text-sm text-gray-500">{formatDate(entry.createdAt)}</p>
+                <p className="font-semibold text-[#1a1a1a]">{entry.authorName}</p>
+                <p className="text-sm text-[#999]">{formatDate(entry.createdAt)}</p>
               </div>
             </div>
 
             {/* Content */}
-            <p className="text-xl text-gray-900 leading-relaxed mb-4">
+            <p className="text-xl text-[#1a1a1a] leading-relaxed mb-6">
               {entry.content}
             </p>
 
             {/* Location */}
             {location && (
-              <p className="text-sm text-gray-500 flex items-center gap-1 mb-6">
+              <p className="text-sm text-[#999] flex items-center gap-2 mb-8">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -206,17 +204,17 @@ export default async function EntryPage({ params }: PageProps) {
             {/* Open in App Button */}
             <a
               href={deepLink}
-              className="block w-full bg-emerald-600 text-white font-semibold px-6 py-4 rounded-full text-center hover:bg-emerald-700 transition-colors text-lg mb-3"
+              className="block w-full bg-[#0a660a] text-white font-semibold px-6 py-4 rounded-2xl text-center hover:bg-[#085408] transition-colors text-lg mb-4"
             >
               Open in App
             </a>
 
             {/* Download App Link */}
-            <p className="text-gray-500 text-sm text-center">
+            <p className="text-[#999] text-sm text-center">
               Don&apos;t have the app?{' '}
               <a
                 href={appStoreUrl}
-                className="text-emerald-600 font-semibold hover:underline"
+                className="text-[#0a660a] font-semibold hover:underline"
               >
                 Download Grateful
               </a>
@@ -224,21 +222,13 @@ export default async function EntryPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* What is Grateful */}
-        <div className="mt-8 text-center">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">What is Grateful?</h2>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            A daily gratitude journaling app where you can share what you&apos;re thankful for
-            with your closest circles - family, friends, and loved ones.
-          </p>
-        </div>
-
         {/* Footer */}
-        <div className="mt-8 text-center text-gray-400 text-xs">
-          <p>grateful.so</p>
+        <div className="mt-8 text-center">
+          <Link href="/" className="text-[#0a660a] font-semibold text-sm hover:underline">
+            grateful.so
+          </Link>
         </div>
       </div>
     </div>
   );
 }
-

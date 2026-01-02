@@ -8,6 +8,20 @@ interface PageProps {
   params: Promise<{ code: string }>;
 }
 
+// Circle colors matching the app
+const CIRCLE_COLORS: Record<string, string> = {
+  green: '#0a660a',
+  blue: '#2563eb',
+  purple: '#7c3aed',
+  pink: '#db2777',
+  red: '#dc2626',
+  orange: '#ea580c',
+  yellow: '#ca8a04',
+  teal: '#0d9488',
+  brown: '#92400e',
+  gray: '#6b7280',
+};
+
 // Fetch circle data
 async function getCircle(code: string) {
   const [circle] = await db
@@ -65,9 +79,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
       images: ['https://grateful.so/icon.png'],
     },
-    other: {
-      'apple-itunes-app': 'app-id=YOUR_APP_ID', // TODO: Replace with actual App Store ID
-    },
   };
 }
 
@@ -78,25 +89,25 @@ export default async function JoinCirclePage({ params }: PageProps) {
   // Deep link URL for the app
   const deepLink = `grateful://circle/join/${code}`;
 
-  // App Store URL (update with actual ID when available)
-  const appStoreUrl = 'https://apps.apple.com/app/gratitude/id0000000000'; // TODO: Replace with actual URL
+  // App Store URL
+  const appStoreUrl = 'https://apps.apple.com/app/grateful';
 
   if (!circle) {
     return (
-      <div className="min-h-screen bg-lienar-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="min-h-screen bg-[#fafaf8] flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-[#e8e8e8] p-8 text-center">
+          <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Circle Not Found</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-[#1a1a1a] mb-3 tracking-tight">Circle Not Found</h1>
+          <p className="text-[#666] mb-8 leading-relaxed">
             This invite link is invalid or has expired. Please ask for a new invite code.
           </p>
           <Link
             href="/"
-            className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-emerald-700 transition-colors"
+            className="inline-block bg-[#0a660a] text-white font-semibold px-8 py-4 rounded-2xl hover:bg-[#085408] transition-colors"
           >
             Learn About Grateful
           </Link>
@@ -105,19 +116,21 @@ export default async function JoinCirclePage({ params }: PageProps) {
     );
   }
 
+  const circleColor = CIRCLE_COLORS[circle.color] || CIRCLE_COLORS.green;
+
   return (
-    <div className="min-h-screen bg-linear-to-b from-emerald-50 to-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-[#fafaf8] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full">
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
-          {/* Icon */}
+        <div className="bg-white rounded-3xl border border-[#e8e8e8] p-8 text-center">
+          {/* Circle Icon */}
           <div
-            className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-            style={{ backgroundColor: getCircleColor(circle.color) + '20' }}
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+            style={{ backgroundColor: circleColor + '15' }}
           >
             <svg
               className="w-10 h-10"
-              style={{ color: getCircleColor(circle.color) }}
+              style={{ color: circleColor }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -127,77 +140,44 @@ export default async function JoinCirclePage({ params }: PageProps) {
           </div>
 
           {/* Circle Name */}
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2 tracking-tight">
             Join &quot;{circle.name}&quot;
           </h1>
 
           {/* Member Count */}
-          <p className="text-gray-600 mb-6">
+          <p className="text-[#666] mb-8">
             {circle.memberCount} {circle.memberCount === 1 ? 'person' : 'people'} sharing gratitude together
           </p>
-
-          {/* Invite Code Display */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <p className="text-sm text-gray-500 mb-1">Invite Code</p>
-            <p className="text-2xl font-mono font-bold tracking-wider text-gray-900">
-              {circle.inviteCode}
-            </p>
-          </div>
 
           {/* Open in App Button */}
           <a
             href={deepLink}
-            className="block w-full text-white font-semibold px-6 py-4 rounded-full mb-3 transition-colors text-lg"
-            style={{ backgroundColor: getCircleColor(circle.color) }}
+            className="block w-full text-white font-semibold px-6 py-4 rounded-2xl mb-4 transition-colors text-lg hover:opacity-90"
+            style={{ backgroundColor: circleColor }}
           >
             Open in App
           </a>
 
           {/* Download App Link */}
-          <p className="text-gray-500 text-sm">
+          <p className="text-[#999] text-sm">
             Don&apos;t have the app?{' '}
             <a
               href={appStoreUrl}
               className="font-semibold hover:underline"
-              style={{ color: getCircleColor(circle.color) }}
+              style={{ color: circleColor }}
             >
               Download Grateful
             </a>
           </p>
         </div>
 
-        {/* What is Grateful */}
-        <div className="mt-8 text-center">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">What is Grateful?</h2>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            A daily gratitude journaling app where you can share what you&apos;re thankful for
-            with your closest circles - family, friends, and loved ones.
-          </p>
-        </div>
-
         {/* Footer */}
-        <div className="mt-8 text-center text-gray-400 text-xs">
-          <p>grateful.so</p>
+        <div className="mt-8 text-center">
+          <Link href="/" className="text-[#0a660a] font-semibold text-sm hover:underline">
+            grateful.so
+          </Link>
         </div>
       </div>
     </div>
   );
 }
-
-// Helper to get circle color
-function getCircleColor(colorName: string): string {
-  const colors: Record<string, string> = {
-    green: '#0a660a',
-    blue: '#2563eb',
-    purple: '#7c3aed',
-    pink: '#db2777',
-    red: '#dc2626',
-    orange: '#ea580c',
-    yellow: '#ca8a04',
-    teal: '#0d9488',
-    brown: '#92400e',
-    gray: '#6b7280',
-  };
-  return colors[colorName] || colors.green;
-}
-
