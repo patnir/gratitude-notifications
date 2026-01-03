@@ -67,14 +67,20 @@ export async function POST(request: NextRequest) {
     const title = `${authorName} is grateful for`;
     const body = truncatedContent;
 
-    // Send notifications
+    // Send notifications (include image if entry has one)
     try {
-      await sendPushNotificationsToUsers(memberIds, title, body, {
-        type: 'circle-entry',
-        circleId,
-        entryId,
-        authorId,
-      });
+      await sendPushNotificationsToUsers(
+        memberIds,
+        title,
+        body,
+        {
+          type: 'circle-entry',
+          circleId,
+          entryId,
+          authorId,
+        },
+        entry.imageUrl || undefined
+      );
       console.log('Notifications sent successfully to', memberIds.length, 'members');
     } catch (pushError) {
       console.error('Error in sendPushNotificationsToUsers:', pushError);

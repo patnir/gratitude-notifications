@@ -48,7 +48,8 @@ export async function sendPushNotificationsToUsers(
   userIds: string[],
   title: string,
   body: string,
-  data?: Record<string, any>
+  data?: Record<string, any>,
+  imageUrl?: string
 ) {
   const { db } = await import('./db');
   const { pushTokens: pushTokensTable } = await import('../drizzle/schema');
@@ -78,6 +79,11 @@ export async function sendPushNotificationsToUsers(
     data: data || {},
     priority: 'high' as const,
     channelId: 'default',
+    // Rich content for iOS (requires notification service extension)
+    ...(imageUrl && {
+      mutableContent: true,
+      richContent: { image: imageUrl },
+    }),
   }));
 
   const chunks = expo.chunkPushNotifications(messages);
