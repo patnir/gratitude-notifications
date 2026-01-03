@@ -6,6 +6,7 @@ import { bigint, index, pgTable, text, unique, uuid } from "drizzle-orm/pg-core"
 export const users = pgTable("users", {
   id: text("id").primaryKey(), // Clerk user ID
   displayName: text("display_name").notNull().default("Member"), // Min 1, max 50 chars
+  profileImageUrl: text("profile_image_url"), // Optional: cloud URL for profile picture
   createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
   updatedAt: bigint("updated_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
 }, (table) => ({

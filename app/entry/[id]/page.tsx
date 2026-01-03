@@ -30,9 +30,9 @@ async function getEntry(id: string) {
   // Only show entries that are shared to a circle (not private)
   if (!entry.circleId) return null;
 
-  // Get author name
+  // Get author name and profile image
   const [author] = await db
-    .select({ displayName: users.displayName })
+    .select({ displayName: users.displayName, profileImageUrl: users.profileImageUrl })
     .from(users)
     .where(eq(users.id, entry.userId))
     .limit(1);
@@ -40,6 +40,7 @@ async function getEntry(id: string) {
   return {
     ...entry,
     authorName: author?.displayName || 'Someone',
+    authorProfileImageUrl: author?.profileImageUrl || null,
   };
 }
 
@@ -180,11 +181,22 @@ export default async function EntryPage({ params }: PageProps) {
           <div className="p-8">
             {/* Author */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-[#e8f5e8] rounded-2xl flex items-center justify-center">
-                <span className="text-[#0a660a] font-semibold text-lg">
-                  {entry.authorName.charAt(0).toUpperCase()}
-                </span>
-              </div>
+              {entry.authorProfileImageUrl ? (
+                <Image
+                  src={entry.authorProfileImageUrl}
+                  alt={entry.authorName}
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 rounded-2xl object-cover"
+                  unoptimized
+                />
+              ) : (
+                <div className="w-12 h-12 bg-[#e8f5e8] rounded-2xl flex items-center justify-center">
+                  <span className="text-[#0a660a] font-semibold text-lg">
+                    {entry.authorName.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
               <div>
                 <p className="font-semibold text-[#1a1a1a]">{entry.authorName}</p>
                 <p className="text-sm text-[#999]">{formatDate(entry.createdAt)}</p>
