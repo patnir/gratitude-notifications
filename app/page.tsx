@@ -35,16 +35,15 @@ export default function Home() {
               className="text-5xl md:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
               style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
             >
-              Find joy in the
-              <span className="text-[#0a660a]"> little things</span>
+              Stay connected through
+              <span className="text-[#0a660a]"> daily gratitude</span>
             </h1>
             <p
               className="mt-8 text-xl text-[#4a4a4a] leading-relaxed max-w-lg opacity-0 animate-fade-in-up"
               style={{ animationDelay: "150ms", animationFillMode: "forwards" }}
             >
-              A simple, beautiful gratitude journal. Write what you are thankful
-              for, share with the people you love, and watch your perspective
-              shift.
+              Share what you're grateful for with family and close friends. No
+              algorithms, no strangers - just the people who matter most.
             </p>
             <div
               className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up"
@@ -90,7 +89,6 @@ export default function Home() {
             How it works
           </h2>
           <p className="text-center text-[#666] text-lg mb-16 max-w-xl mx-auto">
-            Building a gratitude habit takes just a minute a day
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -112,11 +110,12 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
-                Write daily
+                Share daily moments
               </h3>
               <p className="text-[#666] leading-relaxed">
-                Capture moments of gratitude in 140 characters or less. Add
-                photos and your location to remember the context.
+                Post what you're grateful for in 140 characters or less. Add a
+                photo if you want. Your family sees it, reacts with emojis, and
+                you stay in the loop.
               </p>
             </div>
 
@@ -138,11 +137,12 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
-                Share with circles
+                Private circles for your people
               </h3>
               <p className="text-[#666] leading-relaxed">
-                Create private circles for family or close friends. Share your
-                gratitude and react to theirs with emojis.
+                Create circles for family, close friends, or whoever you want to
+                share with. Everyone in the circle sees each other's posts.
+                That's it.
               </p>
             </div>
 
@@ -164,11 +164,11 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
-                Build your streak
+                Keep the habit going
               </h3>
               <p className="text-[#666] leading-relaxed">
-                Track consecutive days of gratitude. Get gentle reminders and
-                weekly recaps of your journey.
+                Daily reminders help you stay consistent. Weekly recaps show you
+                what everyone shared. Build a streak together.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
-                Remember the good moments
+                More meaningful than texting, more intimate than Instagram
               </h2>
               <ul className="space-y-4">
                 <li className="flex items-start gap-4">
@@ -213,7 +213,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <span className="text-[#4a4a4a] text-lg">
-                    Attach photos to your entries
+                    Share photos and moments as they happen
                   </span>
                 </li>
                 <li className="flex items-start gap-4">
@@ -233,7 +233,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <span className="text-[#4a4a4a] text-lg">
-                    Automatic location tagging
+                    React to each other's gratitudes
                   </span>
                 </li>
                 <li className="flex items-start gap-4">
@@ -253,7 +253,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <span className="text-[#4a4a4a] text-lg">
-                    Search through your history
+                    See where everyone's posting from
                   </span>
                 </li>
                 <li className="flex items-start gap-4">
@@ -273,7 +273,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <span className="text-[#4a4a4a] text-lg">
-                    &ldquo;Remember this?&rdquo; notifications with past entries
+                    Get gentle daily reminders
                   </span>
                 </li>
                 <li className="flex items-start gap-4">
@@ -293,7 +293,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <span className="text-[#4a4a4a] text-lg">
-                    Share beautiful quote cards to social media
+                    Weekly recaps of your circle's activity
                   </span>
                 </li>
               </ul>
@@ -317,10 +317,10 @@ export default function Home() {
       <section className="py-24 px-6 bg-[#fafaf8]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
-            Start your gratitude practice today
+            Start sharing with your circle
           </h2>
           <p className="text-[#666] text-lg mb-10">
-            Join thousands of people building a daily habit of gratitude.
+            Private, simple, and made for the people you actually care about.
           </p>
           <a
             href="https://testflight.apple.com/join/6u5zHFms"
