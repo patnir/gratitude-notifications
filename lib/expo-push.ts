@@ -86,6 +86,11 @@ export async function sendPushNotificationsToUsers(
     }),
   }));
 
+  // Log the exact message being sent (first one as sample)
+  if (messages.length > 0) {
+    console.log('Expo push message payload (sample):', JSON.stringify(messages[0], null, 2));
+  }
+
   const chunks = expo.chunkPushNotifications(messages);
   
   for (const chunk of chunks) {

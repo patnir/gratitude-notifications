@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
     const { entryId, circleId, authorId } = requestBody;
 
     console.log('Received notification request:', { entryId, circleId, authorId });
+    console.log('Entry imageUrl will be checked after fetch');
 
     if (!entryId || !circleId || !authorId) {
       return NextResponse.json(
@@ -31,6 +32,8 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    console.log('Entry found, imageUrl:', entry.imageUrl || 'none');
 
     // Get author's display name
     const [author] = await db
@@ -68,6 +71,15 @@ export async function POST(request: NextRequest) {
     const body = truncatedContent;
 
     // Send notifications (include image if entry has one)
+    const imageUrlToSend = entry.imageUrl || undefined;
+    console.log('Sending notification with:', {
+      title,
+      body: truncatedContent,
+      imageUrl: imageUrlToSend || 'NO IMAGE',
+      memberCount: memberIds.length,
+      mutableContent: !!imageUrlToSend,
+    });
+
     try {
       await sendPushNotificationsToUsers(
         memberIds,
@@ -79,9 +91,9 @@ export async function POST(request: NextRequest) {
           entryId,
           authorId,
         },
-        entry.imageUrl || undefined
+        imageUrlToSend
       );
-      console.log('Notifications sent successfully to', memberIds.length, 'members');
+      console.log('Notifications sent successfully to', memberIds.length, 'members', imageUrlToSend ? 'WITH IMAGE' : 'without image');
     } catch (pushError) {
       console.error('Error in sendPushNotificationsToUsers:', pushError);
       // Still return success since entry was created, just notifications failed
