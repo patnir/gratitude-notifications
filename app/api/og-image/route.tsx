@@ -25,7 +25,7 @@ function getDarkerShade(hex: string): string {
   return `#${darker(r).toString(16).padStart(2, '0')}${darker(g).toString(16).padStart(2, '0')}${darker(b).toString(16).padStart(2, '0')}`;
 }
 
-function generateCircleInviteSVG(circleName: string, circleColor: string, memberCount: number): string {
+function generateCircleInviteSVG(circleName: string, circleColor: string): string {
   const color = CIRCLE_COLORS[circleColor] || CIRCLE_COLORS.green;
   const darkerColor = getDarkerShade(color);
 
@@ -59,9 +59,9 @@ function generateCircleInviteSVG(circleName: string, circleColor: string, member
     <!-- Circle icon -->
     <g transform="translate(0, -120)">
       <circle cx="0" cy="0" r="50" fill="rgba(255,255,255,0.15)"/>
-      <svg x="-30" y="-30" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
+      <g transform="translate(-30, -30) scale(2.5)">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke="white" stroke-width="2" fill="none" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </g>
     </g>
     
     <!-- "Join" text -->
@@ -72,11 +72,6 @@ function generateCircleInviteSVG(circleName: string, circleColor: string, member
     <!-- Circle name -->
     <text x="0" y="30" class="title" font-size="56" fill="white" text-anchor="middle" letter-spacing="-0.02em">
       ${escapedName}
-    </text>
-    
-    <!-- Member count -->
-    <text x="0" y="80" class="subtitle" font-size="24" fill="rgba(255,255,255,0.85)" text-anchor="middle">
-      ${memberCount} ${memberCount === 1 ? 'person' : 'people'} sharing gratitude together
     </text>
     
     <!-- Branding at bottom -->
@@ -166,9 +161,8 @@ export async function GET(request: NextRequest) {
   if (type === 'circle') {
     const circleName = searchParams.get('name') || 'Circle';
     const circleColor = searchParams.get('color') || 'green';
-    const memberCount = parseInt(searchParams.get('memberCount') || '0', 10);
 
-    svg = generateCircleInviteSVG(circleName, circleColor, memberCount);
+    svg = generateCircleInviteSVG(circleName, circleColor);
   } else {
     svg = generateDefaultSVG();
   }

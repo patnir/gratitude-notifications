@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const ogImageUrl = `https://grateful.so/api/og-image?type=circle&name=${encodeURIComponent(circle.name)}&color=${circle.color}&memberCount=${circle.memberCount}`;
+  const ogImageUrl = `https://grateful.so/api/og-image?type=circle&name=${encodeURIComponent(circle.name)}&color=${circle.color}`;
 
   return {
     title: `Join ${circle.name} | Grateful`,
