@@ -57,7 +57,7 @@ function generateCircleInviteSVG(circleName: string, circleColor: string): strin
   <!-- Main content - centered -->
   <g transform="translate(600, 315)">
     <!-- Circle icon -->
-    <g transform="translate(0, -120)">
+    <g transform="translate(0, -100)">
       <circle cx="0" cy="0" r="50" fill="rgba(255,255,255,0.15)"/>
       <g transform="translate(-30, -30) scale(2.5)">
         <path stroke-linecap="round" stroke-linejoin="round" stroke="white" stroke-width="2" fill="none" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -65,17 +65,17 @@ function generateCircleInviteSVG(circleName: string, circleColor: string): strin
     </g>
     
     <!-- "Join" text -->
-    <text x="0" y="-20" class="subtitle" font-size="28" fill="rgba(255,255,255,0.9)" text-anchor="middle">
+    <text x="0" y="0" class="subtitle" font-size="28" fill="rgba(255,255,255,0.9)" text-anchor="middle">
       Join
     </text>
     
     <!-- Circle name -->
-    <text x="0" y="30" class="title" font-size="56" fill="white" text-anchor="middle" letter-spacing="-0.02em">
+    <text x="0" y="55" class="title" font-size="56" fill="white" text-anchor="middle" letter-spacing="-0.02em">
       ${escapedName}
     </text>
     
     <!-- Branding at bottom -->
-    <g transform="translate(0, 150)">
+    <g transform="translate(0, 130)">
       <text x="0" y="0" class="branding" font-size="18" fill="rgba(255,255,255,0.7)" text-anchor="middle">
         grateful.so
       </text>
