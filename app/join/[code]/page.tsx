@@ -56,6 +56,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const ogImageUrl = `https://grateful.so/api/og-image?type=circle&name=${encodeURIComponent(circle.name)}&color=${circle.color}&memberCount=${circle.memberCount}`;
+
   return {
     title: `Join ${circle.name} | Grateful`,
     description: `You've been invited to join "${circle.name}" on Grateful - a daily gratitude journaling app. ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} already sharing gratitude together.`,
@@ -66,18 +68,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `https://grateful.so/join/${code}`,
       images: [
         {
-          url: 'https://grateful.so/icon.png',
-          width: 1024,
-          height: 1024,
-          alt: 'Grateful App Icon',
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `Join ${circle.name} on Grateful`,
         },
       ],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: `Join ${circle.name} on Grateful`,
       description: `You've been invited to join "${circle.name}" - ${circle.memberCount} ${circle.memberCount === 1 ? 'member' : 'members'} sharing gratitude together.`,
-      images: ['https://grateful.so/icon.png'],
+      images: [ogImageUrl],
     },
   };
 }

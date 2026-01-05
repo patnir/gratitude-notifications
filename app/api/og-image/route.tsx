@@ -1,7 +1,97 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
-  const svg = `
+// Circle colors matching the app
+const CIRCLE_COLORS: Record<string, string> = {
+  green: '#0a660a',
+  blue: '#2563eb',
+  purple: '#7c3aed',
+  pink: '#db2777',
+  red: '#dc2626',
+  orange: '#ea580c',
+  yellow: '#ca8a04',
+  teal: '#0d9488',
+  brown: '#92400e',
+  gray: '#6b7280',
+};
+
+// Helper to get darker shade for gradient
+function getDarkerShade(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  const darker = (val: number) => Math.max(0, Math.floor(val * 0.7));
+
+  return `#${darker(r).toString(16).padStart(2, '0')}${darker(g).toString(16).padStart(2, '0')}${darker(b).toString(16).padStart(2, '0')}`;
+}
+
+function generateCircleInviteSVG(circleName: string, circleColor: string, memberCount: number): string {
+  const color = CIRCLE_COLORS[circleColor] || CIRCLE_COLORS.green;
+  const darkerColor = getDarkerShade(color);
+
+  // Escape special characters in circle name for SVG
+  const escapedName = circleName
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+  return `
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:${darkerColor};stop-opacity:1" />
+      <stop offset="100%" style="stop-color:${color};stop-opacity:1" />
+    </linearGradient>
+    <style>
+      .title { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 700; }
+      .subtitle { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 400; }
+      .branding { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 600; }
+    </style>
+  </defs>
+  
+  <!-- Background with gradient -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Main content - centered -->
+  <g transform="translate(600, 315)">
+    <!-- Circle icon -->
+    <g transform="translate(0, -120)">
+      <circle cx="0" cy="0" r="50" fill="rgba(255,255,255,0.15)"/>
+      <svg x="-30" y="-30" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    </g>
+    
+    <!-- "Join" text -->
+    <text x="0" y="-20" class="subtitle" font-size="28" fill="rgba(255,255,255,0.9)" text-anchor="middle">
+      Join
+    </text>
+    
+    <!-- Circle name -->
+    <text x="0" y="30" class="title" font-size="56" fill="white" text-anchor="middle" letter-spacing="-0.02em">
+      ${escapedName}
+    </text>
+    
+    <!-- Member count -->
+    <text x="0" y="80" class="subtitle" font-size="24" fill="rgba(255,255,255,0.85)" text-anchor="middle">
+      ${memberCount} ${memberCount === 1 ? 'person' : 'people'} sharing gratitude together
+    </text>
+    
+    <!-- Branding at bottom -->
+    <g transform="translate(0, 150)">
+      <text x="0" y="0" class="branding" font-size="18" fill="rgba(255,255,255,0.7)" text-anchor="middle">
+        grateful.so
+      </text>
+    </g>
+  </g>
+</svg>
+  `.trim();
+}
+
+function generateDefaultSVG(): string {
+  return `
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Green gradient background -->
@@ -65,6 +155,23 @@ export async function GET() {
   </g>
 </svg>
   `.trim();
+}
+
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const type = searchParams.get('type');
+
+  let svg: string;
+
+  if (type === 'circle') {
+    const circleName = searchParams.get('name') || 'Circle';
+    const circleColor = searchParams.get('color') || 'green';
+    const memberCount = parseInt(searchParams.get('memberCount') || '0', 10);
+
+    svg = generateCircleInviteSVG(circleName, circleColor, memberCount);
+  } else {
+    svg = generateDefaultSVG();
+  }
 
   return new NextResponse(svg, {
     headers: {
