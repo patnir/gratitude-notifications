@@ -92,7 +92,7 @@ export default async function JoinCirclePage({ params }: PageProps) {
   const deepLink = `grateful://circle/join/${code}`;
 
   // App Store URL
-  const appStoreUrl = 'https://apps.apple.com/app/grateful';
+  const appStoreUrl = `https://testflight.apple.com/join/6u5zHFms`;
 
   if (!circle) {
     return (
