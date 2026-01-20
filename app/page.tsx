@@ -18,27 +18,43 @@ export default function Home() {
             />
             <span className="text-2xl font-semibold text-[#0a660a]">Grateful</span>
           </div>
+          {/* Mobile: Apple icon button */}
+          <a
+            href="https://testflight.apple.com/join/6u5zHFms"
+            className="lg:hidden flex items-center justify-center w-11 h-11 bg-[#1a1a1a] rounded-xl"
+          >
+            <svg
+              className="w-5 h-5 text-white"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
+            </svg>
+          </a>
         </nav>
 
         {/* Hero content */}
-        <div className="flex-1 flex items-center justify-center px-6 pb-16">
-          <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left side - Copy */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-6 pb-8 lg:pb-16">
+          {/* Mobile: stacked layout (heading -> phone -> button) */}
+          {/* Desktop: side by side */}
+          <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-6 lg:gap-16 items-center">
+            {/* Copy - on mobile appears first, on desktop left side */}
+            <div className="text-center lg:text-left order-1 lg:order-1">
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
+                className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
                 style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
               >
                 Share gratitude with your people.
               </h1>
               <p
-                className="mt-6 text-lg md:text-xl text-[#4a4a4a] leading-relaxed max-w-lg mx-auto lg:mx-0 opacity-0 animate-fade-in-up"
+                className="hidden lg:block mt-6 text-xl text-[#4a4a4a] leading-relaxed max-w-lg mx-auto lg:mx-0 opacity-0 animate-fade-in-up"
                 style={{ animationDelay: "150ms", animationFillMode: "forwards" }}
               >
                 A private space for family and close friends to share what you're grateful for, every day.
               </p>
+              {/* Button - hidden on mobile, shown on desktop */}
               <div
-                className="mt-8 opacity-0 animate-fade-in-up"
+                className="mt-8 opacity-0 animate-fade-in-up hidden lg:block"
                 style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
               >
                 <a
@@ -57,13 +73,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right side - Phone mockup */}
+            {/* Phone mockup - middle on mobile, right on desktop */}
             <div
-              className="order-1 lg:order-2 opacity-0 animate-fade-in-up"
+              className="order-2 lg:order-2 opacity-0 animate-fade-in-up"
               style={{ animationDelay: "200ms", animationFillMode: "forwards" }}
             >
               <RotatingPosts />
             </div>
+
           </div>
         </div>
 
