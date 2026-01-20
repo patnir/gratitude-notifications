@@ -31,8 +31,7 @@ export default function RotatingPosts() {
 
   return (
     <div className="relative w-[280px] h-[605px] mx-auto">
-      {/* Phone frame */}
-      <div className="absolute inset-0 bg-[#1a1a1a] rounded-[3rem] shadow-2xl border-[8px] border-[#1a1a1a]">
+      <div className="absolute inset-0 bg-[#1a1a1a] rounded-[3rem] shadow-2xl border-8 border-[#1a1a1a]">
         {/* Screen area with image */}
         <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-[#fafaf8]">
           {/* All images stacked, only current one visible */}
