@@ -50,7 +50,7 @@ export default function Home() {
                 className="hidden lg:block mt-6 text-xl text-[#4a4a4a] leading-relaxed max-w-lg mx-auto lg:mx-0 opacity-0 animate-fade-in-up"
                 style={{ animationDelay: "150ms", animationFillMode: "forwards" }}
               >
-                A private space for family and close friends to share what you're grateful for, every day.
+                A private space for family and close friends to share what you&apos;re grateful for, every day.
               </p>
               {/* Button - hidden on mobile, shown on desktop */}
               <div
@@ -126,7 +126,7 @@ export default function Home() {
                 Share daily moments
               </h3>
               <p className="text-[#666] text-sm leading-relaxed">
-                Post what you're grateful for. Add a photo if you want.
+                Post what you&apos;re grateful for. Add a photo if you want.
               </p>
             </div>
 
@@ -144,7 +144,7 @@ export default function Home() {
                 See what others share
               </h3>
               <p className="text-[#666] text-sm leading-relaxed">
-                Your circle's gratitudes appear in a simple feed.
+                Your circle&apos;s gratitudes appear in a simple feed.
               </p>
             </div>
 
