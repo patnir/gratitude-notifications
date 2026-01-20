@@ -1,22 +1,13 @@
 import Image from "next/image";
+import RotatingPosts from "./components/RotatingPosts";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#fafaf8]">
-      {/* Hero Section */}
-      <header className="relative overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5l5.5 11.5L48 18l-9 8.5 2 12.5-11-6-11 6 2-12.5-9-8.5 12.5-1.5z' fill='%230a660a' fill-opacity='1'/%3E%3C/svg%3E")`,
-              backgroundSize: "60px 60px",
-            }}
-          />
-        </div>
-
-        <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-6xl mx-auto">
+      {/* Hero Section - Full viewport height */}
+      <section className="min-h-screen flex flex-col">
+        {/* Nav */}
+        <nav className="flex items-center justify-between px-6 py-6 max-w-6xl mx-auto w-full">
           <div className="flex items-center gap-3">
             <Image
               src="/icon.png"
@@ -29,291 +20,139 @@ export default function Home() {
           </div>
         </nav>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-32">
-          <div className="max-w-2xl">
-            <h1
-              className="text-5xl md:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
-            >
-              Stay connected through
-              <span className="text-[#0a660a]"> daily gratitude</span>
-            </h1>
-            <p
-              className="mt-8 text-xl text-[#4a4a4a] leading-relaxed max-w-lg opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "150ms", animationFillMode: "forwards" }}
-            >
-              Share what you're grateful for with family and close friends. No
-              algorithms, no strangers - just the people who matter most.
-            </p>
-            <div
-              className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
-            >
-              <a
-                href="https://testflight.apple.com/join/6u5zHFms"
-                className="inline-flex items-center justify-center gap-2 bg-[#1a1a1a] text-white px-6 py-4 rounded-2xl text-lg font-medium hover:bg-[#333] transition-colors"
+        {/* Hero content */}
+        <div className="flex-1 flex items-center justify-center px-6 pb-16">
+          <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left side - Copy */}
+            <div className="text-center lg:text-left order-2 lg:order-1">
+              <h1
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a1a1a] leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
               >
-                <svg
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+                Share gratitude with your people.
+              </h1>
+              <p
+                className="mt-6 text-lg md:text-xl text-[#4a4a4a] leading-relaxed max-w-lg mx-auto lg:mx-0 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "150ms", animationFillMode: "forwards" }}
+              >
+                A private space for family and close friends to share what you're grateful for, every day.
+              </p>
+              <div
+                className="mt-8 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
+              >
+                <a
+                  href="https://testflight.apple.com/join/6u5zHFms"
+                  className="inline-flex items-center justify-center gap-2 bg-[#1a1a1a] text-white px-6 py-4 rounded-2xl text-lg font-medium hover:bg-[#333] transition-colors"
                 >
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                Download on TestFlight (Beta)
-              </a>
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                  </svg>
+                  Get the App
+                </a>
+              </div>
+            </div>
+
+            {/* Right side - Phone mockup */}
+            <div
+              className="order-1 lg:order-2 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "200ms", animationFillMode: "forwards" }}
+            >
+              <RotatingPosts />
             </div>
           </div>
         </div>
 
-        {/* Decorative star */}
-        <div className="absolute right-10 top-40 w-32 h-32 opacity-10 animate-float hidden lg:block">
-          <svg viewBox="0 0 100 100" fill="#0a660a">
-            <path d="M50 5l11 22.5L85 31l-17.5 17 4 24.5L50 61l-21.5 11.5 4-24.5L15 31l24-3.5z" />
-          </svg>
+        {/* Scroll indicator */}
+        <div className="pb-8 flex justify-center">
+          <div className="animate-bounce">
+            <svg
+              className="w-6 h-6 text-[#999]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </div>
         </div>
-        <div
-          className="absolute right-40 bottom-20 w-20 h-20 opacity-5 animate-float hidden lg:block"
-          style={{ animationDelay: "1s" }}
-        >
-          <svg viewBox="0 0 100 100" fill="#0a660a">
-            <path d="M50 5l11 22.5L85 31l-17.5 17 4 24.5L50 61l-21.5 11.5 4-24.5L15 31l24-3.5z" />
-          </svg>
-        </div>
-      </header>
+      </section>
 
-      {/* Features Section */}
+      {/* How it works - Below the fold */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a1a] mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a1a] mb-16 tracking-tight">
             How it works
           </h2>
-          <p className="text-center text-[#666] text-lg mb-16 max-w-xl mx-auto">
-          </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="p-8 rounded-3xl bg-[#fafaf8] border border-[#e8e8e8]">
-              <div className="w-14 h-14 rounded-2xl bg-[#e8f5e8] flex items-center justify-center mb-6">
-                <svg
-                  className="w-7 h-7 text-[#0a660a]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
-                </svg>
+          <div className="grid md:grid-cols-3 gap-12">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+                <Image
+                  src="/screenshot_post_100.png"
+                  alt="Share your gratitude"
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
                 Share daily moments
               </h3>
               <p className="text-[#666] leading-relaxed">
-                Post what you're grateful for in 140 characters or less. Add a
-                photo if you want. Your family sees it, reacts with emojis, and
-                you stay in the loop.
+                Post what you're grateful for. Add a photo if you want.
               </p>
             </div>
 
-            {/* Feature 2 */}
-            <div className="p-8 rounded-3xl bg-[#fafaf8] border border-[#e8e8e8]">
-              <div className="w-14 h-14 rounded-2xl bg-[#e8f5e8] flex items-center justify-center mb-6">
-                <svg
-                  className="w-7 h-7 text-[#0a660a]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
-                Private circles for your people
-              </h3>
-              <p className="text-[#666] leading-relaxed">
-                Create circles for family, close friends, or whoever you want to
-                share with. Everyone in the circle sees each other's posts.
-                That's it.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="p-8 rounded-3xl bg-[#fafaf8] border border-[#e8e8e8]">
-              <div className="w-14 h-14 rounded-2xl bg-[#e8f5e8] flex items-center justify-center mb-6">
-                <svg
-                  className="w-7 h-7 text-[#0a660a]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-3">
-                Keep the habit going
-              </h3>
-              <p className="text-[#666] leading-relaxed">
-                Daily reminders help you stay consistent. Weekly recaps show you
-                what everyone shared. Build a streak together.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quote Section */}
-      <section className="py-24 px-6 bg-[#0a660a]">
-        <div className="max-w-4xl mx-auto text-center">
-          <blockquote className="text-2xl md:text-3xl font-medium text-white leading-relaxed">
-            &ldquo;Gratitude turns what we have into enough.&rdquo;
-          </blockquote>
-          <cite className="mt-6 block text-[#a8d4a8] text-lg not-italic">
-            - Melody Beattie
-          </cite>
-        </div>
-      </section>
-
-      {/* More Features */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
-                More meaningful than texting, more intimate than Instagram
-              </h2>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#e8f5e8] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-[#0a660a]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[#4a4a4a] text-lg">
-                    Share photos and moments as they happen
-                  </span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#e8f5e8] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-[#0a660a]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[#4a4a4a] text-lg">
-                    React to each other's gratitudes
-                  </span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#e8f5e8] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-[#0a660a]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[#4a4a4a] text-lg">
-                    See where everyone's posting from
-                  </span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#e8f5e8] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-[#0a660a]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[#4a4a4a] text-lg">
-                    Get gentle daily reminders
-                  </span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#e8f5e8] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-[#0a660a]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[#4a4a4a] text-lg">
-                    Weekly recaps of your circle's activity
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#e8f5e8] to-[#d4ecd4] p-12 flex items-center justify-center">
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
                 <Image
-                  src="/icon.png"
-                  alt="Grateful app"
-                  width={200}
-                  height={200}
-                  className="rounded-3xl shadow-2xl animate-float"
+                  src="/screenshot_feed_100.png"
+                  alt="See your circle's posts"
+                  fill
+                  className="object-cover"
                 />
               </div>
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
+                See what others share
+              </h3>
+              <p className="text-[#666] leading-relaxed">
+                Your circle's gratitudes appear in a simple feed.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+                <Image
+                  src="/screenshot_stats_100.png"
+                  alt="Track your streaks"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
+                Build the habit together
+              </h3>
+              <p className="text-[#666] leading-relaxed">
+                Track streaks and see weekly recaps.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Simple CTA */}
       <section className="py-24 px-6 bg-[#fafaf8]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-6 tracking-tight">
@@ -329,7 +168,7 @@ export default function Home() {
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
             </svg>
-            Download on TestFlight (Beta)
+            Get the App
           </a>
         </div>
       </section>
@@ -347,9 +186,11 @@ export default function Home() {
             />
             <span className="text-xl font-semibold text-[#0a660a]">Grateful</span>
           </div>
-          <p className="text-[#999] text-sm">
-            Made with gratitude
-          </p>
+          <div className="flex gap-6 text-sm text-[#666]">
+            <a href="/privacy" className="hover:text-[#1a1a1a] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[#1a1a1a] transition-colors">Terms</a>
+            <a href="/contact" className="hover:text-[#1a1a1a] transition-colors">Contact</a>
+          </div>
         </div>
       </footer>
     </div>
