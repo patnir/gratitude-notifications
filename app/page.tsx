@@ -94,10 +94,10 @@ export default function Home() {
             How it works
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Step 1 */}
             <div className="text-center">
-              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+              <div className="relative w-44 h-[380px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
                 <Image
                   src="/screenshot_post_100.png"
                   alt="Share your gratitude"
@@ -105,17 +105,17 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-2">
                 Share daily moments
               </h3>
-              <p className="text-[#666] leading-relaxed">
+              <p className="text-[#666] text-sm leading-relaxed">
                 Post what you're grateful for. Add a photo if you want.
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="text-center">
-              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+              <div className="relative w-44 h-[380px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
                 <Image
                   src="/screenshot_feed_100.png"
                   alt="See your circle's posts"
@@ -123,17 +123,35 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-2">
                 See what others share
               </h3>
-              <p className="text-[#666] leading-relaxed">
+              <p className="text-[#666] text-sm leading-relaxed">
                 Your circle's gratitudes appear in a simple feed.
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="text-center">
-              <div className="relative w-48 h-[416px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+              <div className="relative w-44 h-[380px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
+                <Image
+                  src="/screenshot_profile_100.png"
+                  alt="Your profile"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-2">
+                Track your journey
+              </h3>
+              <p className="text-[#666] text-sm leading-relaxed">
+                See your gratitude history and stats on your profile.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="text-center">
+              <div className="relative w-44 h-[380px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-xl border border-[#e8e8e8]">
                 <Image
                   src="/screenshot_stats_100.png"
                   alt="Track your streaks"
@@ -141,10 +159,10 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">
-                Build the habit together
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-2">
+                Build the habit
               </h3>
-              <p className="text-[#666] leading-relaxed">
+              <p className="text-[#666] text-sm leading-relaxed">
                 Track streaks and see weekly recaps.
               </p>
             </div>

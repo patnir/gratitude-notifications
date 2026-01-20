@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const posts = [
+  "/screenshot_feed_100.png",
   "/posts/100.png",
   "/posts/101.png",
   "/posts/103.png",
@@ -11,7 +12,6 @@ const posts = [
   "/posts/105.png",
   "/posts/106.png",
   "/posts/107.png",
-  "/posts/108.png",
   "/posts/109.png",
   "/posts/110.png",
   "/posts/111.png",
