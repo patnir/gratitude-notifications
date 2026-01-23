@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Grateful - Build a gratitude habit with friends and family",
     description:
-      "A simple, beautiful gratitude journal. Write what you are thankful for, share with the people you love, and watch your perspective shift. Create private circles for family or close friends and build a daily habit together.",
+      "A simple, beautiful gratitude journal. Share what you're thankful for with family and close friends. Build a daily habit of gratitude together.",
     images: ["https://grateful.so/og-image.png"],
   },
 };
