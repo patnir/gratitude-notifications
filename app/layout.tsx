@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://grateful.so/og-image.svg",
-        width: 1200,
-        height: 630,
+        url: "https://grateful.so/og-image.png",
+        width: 1024,
+        height: 500,
         alt: "Grateful - Build a gratitude habit with friends and family",
       },
     ],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: "Grateful - Build a gratitude habit with friends and family",
     description:
       "A simple, beautiful gratitude journal. Write what you are thankful for, share with the people you love, and watch your perspective shift. Create private circles for family or close friends and build a daily habit together.",
-    images: ["https://grateful.so/og-image.svg"],
+    images: ["https://grateful.so/og-image.png"],
   },
 };
 
