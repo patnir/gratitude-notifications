@@ -130,8 +130,9 @@ export default async function EntryPage({ params }: PageProps) {
   // Deep link URL for the app
   const deepLink = `grateful://entry/${id}`;
 
-  // TestFlight URL
+  // App Store URLs
   const appStoreUrl = 'https://testflight.apple.com/join/6u5zHFms';
+  const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rahul20patni.gratitude';
 
   if (!entry) {
     return (
@@ -227,14 +228,21 @@ export default async function EntryPage({ params }: PageProps) {
               Open in App
             </a>
 
-            {/* Download App Link */}
+            {/* Download App Links */}
             <p className="text-[#999] text-sm text-center">
-              Don&apos;t have the app?{' '}
+              Don&apos;t have the app? Download on{' '}
               <a
                 href={appStoreUrl}
                 className="text-[#0a660a] font-semibold hover:underline"
               >
-                Download on TestFlight (Beta)
+                App Store
+              </a>
+              {' '}or{' '}
+              <a
+                href={playStoreUrl}
+                className="text-[#0a660a] font-semibold hover:underline"
+              >
+                Google Play
               </a>
             </p>
           </div>

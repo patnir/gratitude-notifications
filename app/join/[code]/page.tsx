@@ -91,8 +91,9 @@ export default async function JoinCirclePage({ params }: PageProps) {
   // Deep link URL for the app
   const deepLink = `grateful://circle/join/${code}`;
 
-  // App Store URL
-  const appStoreUrl = `https://testflight.apple.com/join/6u5zHFms`;
+  // App Store URLs
+  const appStoreUrl = 'https://testflight.apple.com/join/6u5zHFms';
+  const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rahul20patni.gratitude';
 
   if (!circle) {
     return (
@@ -160,15 +161,23 @@ export default async function JoinCirclePage({ params }: PageProps) {
             Open in App
           </a>
 
-          {/* Download App Link */}
+          {/* Download App Links */}
           <p className="text-[#999] text-sm">
-            Don&apos;t have the app?{' '}
+            Don&apos;t have the app? Download on{' '}
             <a
               href={appStoreUrl}
               className="font-semibold hover:underline"
               style={{ color: circleColor }}
             >
-              Download Grateful
+              App Store
+            </a>
+            {' '}or{' '}
+            <a
+              href={playStoreUrl}
+              className="font-semibold hover:underline"
+              style={{ color: circleColor }}
+            >
+              Google Play
             </a>
           </p>
         </div>
