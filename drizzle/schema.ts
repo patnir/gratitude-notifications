@@ -1,5 +1,5 @@
 // drizzle/schema.ts
-import { bigint, index, pgTable, text, unique, uuid } from "drizzle-orm/pg-core";
+import { bigint, index, integer, pgTable, text, unique, uuid } from "drizzle-orm/pg-core";
 
 // ============ USER PROFILE ============
 
@@ -47,6 +47,7 @@ export const gratitudeEntries = pgTable("gratitude_entries", {
   location: text("location"), // Optional: stores JSON with {latitude, longitude, city, state, country, address}
   imageUrl: text("image_url"), // Optional: cloud URL for attached image
   circleId: uuid("circle_id").references(() => circles.id, { onDelete: "set null" }), // If null, entry is private
+  commentCount: integer("comment_count").notNull().default(0), // Denormalized count for feed performance
   createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
   updatedAt: bigint("updated_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
 }, (table) => ({
@@ -82,5 +83,19 @@ export const entryReactions = pgTable("entry_reactions", {
   entryIdIdx: index("entry_reactions_entry_id_idx").on(table.entryId),
   userIdIdx: index("entry_reactions_user_id_idx").on(table.userId),
   uniqueReaction: unique("entry_reactions_unique").on(table.entryId, table.userId),
+}));
+
+// ============ COMMENTS ============
+
+export const entryComments = pgTable("entry_comments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  entryId: uuid("entry_id").notNull().references(() => gratitudeEntries.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  content: text("content").notNull(), // Min 1 char, max 500 chars
+  createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+}, (table) => ({
+  entryIdIdx: index("entry_comments_entry_id_idx").on(table.entryId),
+  userIdIdx: index("entry_comments_user_id_idx").on(table.userId),
+  entryCreatedIdx: index("entry_comments_entry_created_idx").on(table.entryId, table.createdAt),
 }));
 
