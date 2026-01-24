@@ -4,9 +4,6 @@ import { sendPushNotificationsToUsers } from '@/lib/expo-push';
 import { and, eq, ne } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Public welcome circle - don't send notifications for new posts
-const PUBLIC_CIRCLE_ID = 'e53e0188-00b2-48d4-bf08-1d151d91cd15';
-
 export async function POST(request: NextRequest) {
   try {
     const requestBody = await request.json();
@@ -20,11 +17,6 @@ export async function POST(request: NextRequest) {
         { error: 'Missing required fields' },
         { status: 400 }
       );
-    }
-
-    // Skip notifications for the public welcome circle
-    if (circleId === PUBLIC_CIRCLE_ID) {
-      return NextResponse.json({ message: 'Skipping notifications for public circle' });
     }
 
     // Get the entry to verify it exists and get content
