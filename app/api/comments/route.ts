@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { entryId, userId } = await request.json();
+    const { entryId, userId, commentContent } = await request.json();
 
     if (!entryId || !userId) {
       return NextResponse.json(
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get entry to find author and content
+    // Get entry to find author
     const [entry] = await db
       .select()
       .from(gratitudeEntries)
@@ -38,17 +38,12 @@ export async function POST(request: NextRequest) {
         .limit(1);
 
       const commenterName = commenter?.displayName || 'Someone';
-
-      // Truncate entry content if too long
-      const entryPreview = entry.content.length > 50
-        ? entry.content.substring(0, 50) + '...'
-        : entry.content;
-
-      const body = `${commenterName} commented on your post "${entryPreview}"`;
+      const title = `${commenterName} commented on your entry`;
+      const body = commentContent || 'New comment';
 
       await sendPushNotificationsToUsers(
         [entry.userId],
-        'New Comment',
+        title,
         body,
         { type: 'comment', entryId, userId }
       );
