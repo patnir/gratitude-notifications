@@ -78,8 +78,8 @@ export default function SafetyPage() {
               </li>
               <li>
                 <strong>Email:</strong> Contact us at{' '}
-                <a href="mailto:rahul20patni@gmail.com" className="text-green-700 hover:text-green-800">
-                  rahul20patni@gmail.com
+                <a href="mailto:contact@grateful.so" className="text-green-700 hover:text-green-800">
+                  contact@grateful.so
                 </a>
               </li>
               <li>

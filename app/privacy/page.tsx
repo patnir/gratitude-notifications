@@ -141,7 +141,7 @@ export default function PrivacyPage() {
               <li>Right to non-discrimination for exercising your privacy rights</li>
             </ul>
             <p className="text-gray-700">
-              To exercise these rights, contact us at privacy@grateful.so.
+              To exercise these rights, contact us at contact@grateful.so.
             </p>
           </section>
 
@@ -180,7 +180,7 @@ export default function PrivacyPage() {
               please contact us at:
             </p>
             <p className="text-gray-700 mt-2">
-              <strong>Email:</strong> privacy@grateful.so
+              <strong>Email:</strong> contact@grateful.so
             </p>
           </section>
         </div>

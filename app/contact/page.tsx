@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const supportEmail = 'rahul20patni@gmail.com';
+  const supportEmail = 'contact@grateful.so';
 
   return (
     <div className="min-h-screen bg-white">

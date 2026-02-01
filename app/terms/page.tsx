@@ -182,7 +182,7 @@ export default function TermsPage() {
               For questions about these Terms of Service, contact us at:
             </p>
             <p className="text-gray-700 mt-2">
-              <strong>Email:</strong> support@grateful.so
+              <strong>Email:</strong> contact@grateful.so
             </p>
           </section>
         </div>
