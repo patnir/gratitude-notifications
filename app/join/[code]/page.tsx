@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import SmartAppLink from './SmartAppLink';
 
 interface PageProps {
   params: Promise<{ code: string }>;
@@ -152,34 +153,13 @@ export default async function JoinCirclePage({ params }: PageProps) {
             {circle.memberCount} {circle.memberCount === 1 ? 'person' : 'people'} sharing gratitude together
           </p>
 
-          {/* Open in App Button */}
-          <a
-            href={deepLink}
-            className="block w-full text-white font-semibold px-6 py-4 rounded-2xl mb-4 transition-colors text-lg hover:opacity-90"
-            style={{ backgroundColor: circleColor }}
-          >
-            Open in App
-          </a>
-
-          {/* Download App Links */}
-          <p className="text-[#999] text-sm">
-            Don&apos;t have the app? Download on{' '}
-            <a
-              href={appStoreUrl}
-              className="font-semibold hover:underline"
-              style={{ color: circleColor }}
-            >
-              App Store
-            </a>
-            {' '}or{' '}
-            <a
-              href={playStoreUrl}
-              className="font-semibold hover:underline"
-              style={{ color: circleColor }}
-            >
-              Google Play
-            </a>
-          </p>
+          {/* Smart App Link - tries deep link first, falls back to app store */}
+          <SmartAppLink
+            deepLink={deepLink}
+            appStoreUrl={appStoreUrl}
+            playStoreUrl={playStoreUrl}
+            circleColor={circleColor}
+          />
         </div>
 
         {/* Footer */}
