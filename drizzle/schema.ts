@@ -1,5 +1,5 @@
 // drizzle/schema.ts
-import { bigint, index, integer, pgTable, text, unique, uuid } from "drizzle-orm/pg-core";
+import { bigint, boolean, index, integer, pgTable, text, unique, uuid } from "drizzle-orm/pg-core";
 
 // ============ USER PROFILE ============
 
@@ -55,6 +55,19 @@ export const gratitudeEntries = pgTable("gratitude_entries", {
   createdAtIdx: index("gratitude_entries_created_at_idx").on(table.createdAt),
   circleIdIdx: index("gratitude_entries_circle_id_idx").on(table.circleId),
 }));
+
+// ============ NOTIFICATION PREFERENCES ============
+
+export const notificationPreferences = pgTable("notification_preferences", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  dailyReminderEnabled: boolean("daily_reminder_enabled").notNull().default(true),
+  dailyReminderTime: text("daily_reminder_time").notNull().default("09:00"),
+  pastReminderEnabled: boolean("past_reminder_enabled").notNull().default(true),
+  pastReminderTime: text("past_reminder_time").notNull().default("18:00"),
+  createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+  updatedAt: bigint("updated_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+});
 
 // ============ PUSH NOTIFICATIONS ============
 
