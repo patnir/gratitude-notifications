@@ -1,7 +1,7 @@
-import { gratitudeEntries, users } from '@/drizzle/schema';
+import { entryComments, gratitudeEntries, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
-import { eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -29,20 +29,46 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get commenter's display name (used for both notification types)
+    const [commenter] = await db
+      .select({ displayName: users.displayName })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    const commenterName = commenter?.displayName || 'Someone';
+    const body = commentContent || 'New comment';
+
     // Send notification to entry author (only if not their own entry)
     if (entry.userId !== userId) {
-      const [commenter] = await db
-        .select({ displayName: users.displayName })
-        .from(users)
-        .where(eq(users.id, userId))
-        .limit(1);
-
-      const commenterName = commenter?.displayName || 'Someone';
       const title = `${commenterName} commented on your entry`;
-      const body = commentContent || 'New comment';
 
       await sendPushNotificationsToUsers(
         [entry.userId],
+        title,
+        body,
+        { type: 'comment', entryId, userId }
+      );
+    }
+
+    // Send notifications to previous commenters (excluding current commenter and entry author)
+    const previousCommenters = await db
+      .selectDistinct({ userId: entryComments.userId })
+      .from(entryComments)
+      .where(
+        and(
+          eq(entryComments.entryId, entryId),
+          ne(entryComments.userId, userId), // Exclude current commenter
+          ne(entryComments.userId, entry.userId) // Exclude entry author (already notified above)
+        )
+      );
+
+    if (previousCommenters.length > 0) {
+      const previousCommenterIds = previousCommenters.map(c => c.userId);
+      const title = `${commenterName} also commented`;
+
+      await sendPushNotificationsToUsers(
+        previousCommenterIds,
         title,
         body,
         { type: 'comment', entryId, userId }
