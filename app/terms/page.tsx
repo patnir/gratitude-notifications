@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
-  const lastUpdated = 'January 19, 2026';
+  const lastUpdated = 'February 9, 2026';
 
   return (
     <div className="min-h-screen bg-white">
@@ -111,12 +111,20 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Reporting Content</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Reporting Content and Blocking Users</h2>
+            <p className="text-gray-700 mb-4">
+              If you encounter content that violates these Terms, you may report it through the App 
+              using the report feature on any entry. You may also block users whose content you find 
+              objectionable. Blocked users&apos; content will be immediately hidden from your feed.
+            </p>
+            <p className="text-gray-700 mb-4">
+              <strong>We commit to reviewing all content reports within 24 hours.</strong> When we 
+              determine that content violates these Terms, we will remove the content and may 
+              terminate the account of the user who posted it.
+            </p>
             <p className="text-gray-700">
-              If you encounter content that violates these Terms, you may report it through the App. 
-              We will review reports and take appropriate action, which may include removing content 
-              or terminating accounts. We are not obligated to act on every report but will make 
-              good faith efforts to address violations.
+              We take all reports seriously and will take appropriate action, which may include 
+              removing content, issuing warnings, or terminating accounts for repeat or serious violations.
             </p>
           </section>
 

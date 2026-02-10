@@ -112,3 +112,32 @@ export const entryComments = pgTable("entry_comments", {
   entryCreatedIdx: index("entry_comments_entry_created_idx").on(table.entryId, table.createdAt),
 }));
 
+// ============ CONTENT MODERATION ============
+
+// Report reasons: "inappropriate", "spam", "harassment", "other"
+// Report status: "pending", "reviewed", "actioned"
+export const contentReports = pgTable("content_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  entryId: uuid("entry_id").notNull().references(() => gratitudeEntries.id, { onDelete: "cascade" }),
+  reporterId: text("reporter_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  reason: text("reason").notNull(), // "inappropriate", "spam", "harassment", "other"
+  details: text("details"), // Optional additional details from reporter
+  status: text("status").notNull().default("pending"), // "pending", "reviewed", "actioned"
+  createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+}, (table) => ({
+  entryIdIdx: index("content_reports_entry_id_idx").on(table.entryId),
+  reporterIdIdx: index("content_reports_reporter_id_idx").on(table.reporterId),
+  statusIdx: index("content_reports_status_idx").on(table.status),
+}));
+
+export const blockedUsers = pgTable("blocked_users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  blockerId: text("blocker_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  blockedId: text("blocked_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  reason: text("reason"), // Optional reason for blocking
+  createdAt: bigint("created_at", { mode: "number" }).notNull().$defaultFn(() => Date.now()),
+}, (table) => ({
+  blockerIdIdx: index("blocked_users_blocker_id_idx").on(table.blockerId),
+  blockedIdIdx: index("blocked_users_blocked_id_idx").on(table.blockedId),
+  uniqueBlock: unique("blocked_users_unique").on(table.blockerId, table.blockedId),
+}));
