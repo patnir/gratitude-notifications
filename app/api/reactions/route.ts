@@ -1,14 +1,20 @@
 import { entryReactions, gratitudeEntries, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { requireAuth } from '@/lib/auth';
 import { and, eq, inArray } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
     const { searchParams } = new URL(request.url);
     const entryIdsParam = searchParams.get('entryIds');
-    const userId = searchParams.get('userId');
+    // Use authenticated userId if available, fall back to query param during migration
+    const userId = auth?.userId || searchParams.get('userId');
 
     if (!entryIdsParam) {
       return NextResponse.json(
@@ -71,7 +77,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { entryId, userId, emoji, action } = await request.json();
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
+    const { entryId, userId: bodyUserId, emoji, action } = await request.json();
+
+    // Use authenticated userId if available, fall back to request body during migration
+    const userId = auth?.userId || bodyUserId;
 
     if (!entryId || !userId || !emoji) {
       return NextResponse.json(

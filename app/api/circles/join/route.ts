@@ -1,6 +1,7 @@
 import { circleMembers, circles, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { requireAuth } from '@/lib/auth';
 import { and, eq, ne } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -9,7 +10,14 @@ const PUBLIC_CIRCLE_ID = 'e53e0188-00b2-48d4-bf08-1d151d91cd15';
 
 export async function POST(request: NextRequest) {
   try {
-    const { circleId, newMemberId } = await request.json();
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
+    const { circleId, newMemberId: bodyNewMemberId } = await request.json();
+
+    // Use authenticated userId if available, fall back to request body during migration
+    const newMemberId = auth?.userId || bodyNewMemberId;
 
     if (!circleId || !newMemberId) {
       return NextResponse.json(

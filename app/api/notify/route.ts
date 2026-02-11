@@ -1,18 +1,26 @@
 import { circleMembers, gratitudeEntries, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { requireAuth } from '@/lib/auth';
 import { and, eq, ne } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
     const requestBody = await request.json();
     const { entryId, circleId, authorId } = requestBody;
 
-    console.log('Received notification request:', { entryId, circleId, authorId });
+    // Use authenticated userId if available, fall back to request body during migration
+    const verifiedAuthorId = auth?.userId || authorId;
+
+    console.log('Received notification request:', { entryId, circleId, authorId: verifiedAuthorId }, auth ? '(authenticated)' : '(from body)');
     console.log('Entry imageUrl will be checked after fetch');
 
-    if (!entryId || !circleId || !authorId) {
+    if (!entryId || !circleId || !verifiedAuthorId) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -39,7 +47,7 @@ export async function POST(request: NextRequest) {
     const [author] = await db
       .select({ displayName: users.displayName })
       .from(users)
-      .where(eq(users.id, authorId))
+      .where(eq(users.id, verifiedAuthorId))
       .limit(1);
 
     const authorName = author?.displayName || 'Someone';
@@ -51,7 +59,7 @@ export async function POST(request: NextRequest) {
       .where(
         and(
           eq(circleMembers.circleId, circleId),
-          ne(circleMembers.userId, authorId)
+          ne(circleMembers.userId, verifiedAuthorId)
         )
       );
 
@@ -89,7 +97,7 @@ export async function POST(request: NextRequest) {
           type: 'circle-entry',
           circleId,
           entryId,
-          authorId,
+          authorId: verifiedAuthorId,
         },
         imageUrlToSend
       );

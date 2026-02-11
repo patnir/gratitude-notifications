@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { requireAuth } from '@/lib/auth';
 
 const R2_PUBLIC_URL = 'https://pub-6d45957254cf4079bab8f194fdd6ec27.r2.dev';
 
@@ -25,13 +26,20 @@ function getBucketName(): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
     const formData = await request.formData();
     const file = formData.get('image') as File | null;
-    const userId = formData.get('userId') as string | null;
+    
+    // Use authenticated userId if available, fall back to form data during migration
+    const formUserId = formData.get('userId') as string | null;
+    const userId = auth?.userId || formUserId;
 
     console.log('Upload request received');
     console.log('File:', file ? `name=${file.name}, type=${file.type}, size=${file.size}` : 'null');
-    console.log('UserId:', userId);
+    console.log('UserId:', userId, auth ? '(authenticated)' : '(from form data)');
 
     if (!file) {
       return NextResponse.json(

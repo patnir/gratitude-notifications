@@ -1,12 +1,20 @@
 import { entryComments, gratitudeEntries, users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { sendPushNotificationsToUsers } from '@/lib/expo-push';
+import { requireAuth } from '@/lib/auth';
 import { and, eq, ne } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { entryId, userId, commentContent } = await request.json();
+    // Verify authentication (required: false during migration, flip to true later)
+    const { auth, errorResponse } = await requireAuth(request, { required: false });
+    if (errorResponse) return errorResponse;
+
+    const { entryId, userId: bodyUserId, commentContent } = await request.json();
+
+    // Use authenticated userId if available, fall back to request body during migration
+    const userId = auth?.userId || bodyUserId;
 
     if (!entryId || !userId) {
       return NextResponse.json(
